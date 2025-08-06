@@ -45,10 +45,12 @@ public abstract class GenericController<
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteById(@PathVariable I id) {
         try{
-            service.deleteById(id);
-            return ResponseEntity.ok().body("L'entité avec l'id " + id + " a été supprimée.");
-        } catch (EmptyResultDataAccessException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aucune entité trouvée avec l'id " + id);
+            if(service.byId(id).isPresent()){
+                service.deleteById(id);
+                return ResponseEntity.ok().body("L'élément a bien été supprimé.");
+            } else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aucun élément trouvé !");
+            }
         } catch (DataIntegrityViolationException ex){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (Exception ex){
