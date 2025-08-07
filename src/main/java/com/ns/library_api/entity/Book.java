@@ -1,5 +1,6 @@
 package com.ns.library_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,10 +25,11 @@ public class Book {
     private String isbn;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDate publish;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
+    @JsonBackReference
     private Author author;
 }
 

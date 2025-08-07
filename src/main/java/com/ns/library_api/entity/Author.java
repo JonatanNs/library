@@ -1,5 +1,6 @@
 package com.ns.library_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,10 +25,8 @@ public class Author {
     @Column(nullable = false)
     private String nom;
 
-    @Column(nullable = false)
-    private LocalDate birthday;
-
     @OneToMany(mappedBy = "author", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
+    @JsonManagedReference
     private List<Book> books;
 }
